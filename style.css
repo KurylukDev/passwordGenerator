@@ -85,6 +85,11 @@ input[type="checkbox"] {
 	margin: 15px 0;
 }
 
+.clipboard{
+    width: 100%;
+    height:60%;
+}
+
 @media screen and (max-width: 400px) {
 	.resultContainer {
 		font-size: 14px;
