@@ -18,16 +18,31 @@ const randomFunc = {
 }
 
 
-generateElement.addEventListener('click', () =>{
-    const length = +lengthElement.value
-    const hasLower = lowercaseElement.checked
-    const hasUpper = uppercaseElement.checked
-    const hasNumber = numbersElement.checked
-    const hasSymbol = symbolsElement.checked
-
-    resultElement.innerHTML = generatePassword(hasLower, hasNumber, hasSymbol, hasUpper, length)
+generate.addEventListener('click', () => {
+	const length = +lengthElement.value;
+	const hasLower = lowercaseElement.checked;
+	const hasUpper = uppercaseElement.checked;
+	const hasNumber = numbersElement.checked;
+	const hasSymbol = symbolsElement.checked;
+	
+	resultElement.innerText = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol, length);
 })
 
+clipboardElement.addEventListener("click", () => {
+    const textarea = document.createElement("textarea")
+    const password = resultElement.innerText
+
+    if(!password){
+        return;
+    }
+
+    textarea.value = password
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand("copy")
+    textarea.remove()
+    alert("password copied")
+})
 //Generate password function
 
 function generatePassword(lower, upper, number, symbol, length){
@@ -47,13 +62,13 @@ function generatePassword(lower, upper, number, symbol, length){
         typesArr.forEach(type => {
             const funcName = Object.keys(type)[0]
             generatedPassword += randomFunc[funcName]()
-            console.log("funcName", funcName)
+
         })
     }
 
-    console.log(generatedPassword)
+    const finalPassword = generatedPassword.slice(0, length)
 
-    
+    return finalPassword
 }
 
 // funcion generar random
@@ -62,15 +77,15 @@ function getRandomLower(){
     return String.fromCharCode(Math.floor(Math.random() * 26) + 97)
 }
 
-function getRandomUpper(){
-    return String.fromCharCode(Math.floor(Math.random() * 26) + 65)
+function getRandomUpper() {
+	return String.fromCharCode(Math.floor(Math.random() * 26) + 65)
 }
 
 function getRandomNumber(){
     return String.fromCharCode(Math.floor(Math.random() * 10) + 48)
 }
 
-function getRandomSymbol(){
-    const symbols = "!@<>$#!?¡¿=)(/&%,.;"
-    return String.fromCharCode[Math.floor(Math.random() * symbols.length)]
+function getRandomSymbol() {
+	const symbols = '!@#$%^&*(){}[]=<>/,.'
+	return symbols[Math.floor(Math.random() * symbols.length)];
 }
